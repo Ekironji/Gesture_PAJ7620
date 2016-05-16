@@ -266,11 +266,11 @@ unsigned char initRegisterArray[][2] = {	// Initial Gesture
 uint8_t paj7620WriteReg(uint8_t addr, uint8_t cmd)
 {
 	char i = 1;
-	Wire.beginTransmission(PAJ7620_ID);		// start transmission to device 
+	Wire1.beginTransmission(PAJ7620_ID);		// start transmission to device 
 	//write cmd
-	Wire.write(addr);						// send register address
-	Wire.write(cmd);						// send value to write
-    i = Wire.endTransmission();  		    // end transmission
+	Wire1.write(addr);						// send register address
+	Wire1.write(cmd);						// send value to write
+    i = Wire1.endTransmission();  		    // end transmission
 	if(0 != i)
     {
 		Serial.print("Transmission error!!!\n");
@@ -289,9 +289,9 @@ uint8_t paj7620WriteReg(uint8_t addr, uint8_t cmd)
 uint8_t paj7620ReadReg(uint8_t addr, uint8_t qty, uint8_t data[])
 {
 	uint8_t error;
-	Wire.beginTransmission(PAJ7620_ID);
-	Wire.write(addr);
-	error = Wire.endTransmission();
+	Wire1.beginTransmission(PAJ7620_ID);
+	Wire1.write(addr);
+	error = Wire1.endTransmission();
 
 	if(0 != error)
     {
@@ -299,11 +299,11 @@ uint8_t paj7620ReadReg(uint8_t addr, uint8_t qty, uint8_t data[])
 		return error; //return error code
 	}
 	
-	Wire.requestFrom((int)PAJ7620_ID, (int)qty);
+	Wire1.requestFrom((int)PAJ7620_ID, (int)qty);
 
-	while (Wire.available()) 
+	while (Wire1.available()) 
 	{
-		*data = Wire.read();
+		*data = Wire1.read();
 
 #ifdef debug    //debug
     Serial.print("addr:");
@@ -352,7 +352,7 @@ uint8_t paj7620Init(void)
 	//wakeup the sensor
 	delayMicroseconds(700);	//Wait 700us for PAJ7620U2 to stabilize	
 	
-	Wire.begin();
+	Wire1.begin();
 	
 	Serial.println("INIT SENSOR...");
 
